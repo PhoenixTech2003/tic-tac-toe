@@ -40,7 +40,8 @@ const gameBoard = (function (){
             //set the player mark to a particular selected cell
             board[row][column]= getMarker();
         }
-
+        let verifyWinner = gameController()
+        verifyWinner.verifyWinner();
     }
     return{setMarker,board};
 })();
@@ -94,8 +95,85 @@ function gameController (){
         
 
     }
+
+
+    function extractRows(){
+        let rows = [];
+        gameBoard.board.forEach(row => rows.push(row));
+        checkRows(rows,3);
+    }
+
+    function extractColumns(){
+        let columns = [];
+        for(let columnNumber = 0; columnNumber < 3; columnNumber++){
+             columns.push(gameBoard.board.map((value,index)=>value[columnNumber]));       
+       }
+
+        checkRows(columns,3);      
+    }
+
+    function extractDiagonals(){
+        let diagnols = [];
+        let temp = [];
+        let rows = 0;
+        let columns = 2;
+
+        for(let index = 0;index < 3; index++){
+            temp.push(gameBoard.board[index][index])
+        }
+        diagnols.push(temp);
+        temp = [];
+
+        temp.push(gameBoard.board[rows][columns]);
+        while(rows < 3 && columns > 0 ){
+            rows ++;
+            columns--;
+            temp.push(gameBoard.board[rows][columns]);
+        }
+
+    
+        diagnols.push(temp);
+        checkRows(diagnols,2);
+
+    }
+        
+        // function to check rows:
+        function checkRows(array,rows){
+            
+            //loop over rows
+            for(let index = 0; index < rows; index++ ){
+               let playerOneMarker = getOccurences(array[index],"X");
+               let playerTwoMarker = getOccurences(array[index],"O");
+               if(playerOneMarker === 3){
+                console.log("player one")
+               }
+               else if(playerTwoMarker === 3){
+                console.log("player two")
+               }
+
+            }
+        }
+
+        //function to check number of occurences of marker
+        function getOccurences(array,value){
+            let count = 0;
+            array.forEach(arrayValue =>{
+                if(arrayValue === value){
+                    count++;
+                }
+            })
+
+            return count;
+        }
+        //function to determine winner
+        function verifyWinner(){
+          extractRows();
+          extractColumns();
+          extractDiagonals();
+          console.log(gameBoard.board);
+        }
+    
    
-   
-   return {selectActivePlayer};
+   return {selectActivePlayer,verifyWinner};
 }
 
