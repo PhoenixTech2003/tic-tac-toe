@@ -6,6 +6,8 @@ const gameBoard = (function (){
     let columns = 3;
     //board array
     let board = [];
+    //variable to count moves
+    let moves  = 0;
     //create the gameboard
     generateGameBoard();
     
@@ -42,8 +44,18 @@ const gameBoard = (function (){
         }
         let verifyWinner = gameController()
         verifyWinner.verifyWinner();
+        countMoves();
     }
-    return{setMarker,board};
+
+    function restartGame(){
+        generateGameBoard()
+    }
+
+    function countMoves(){
+        moves++;
+        return moves;
+    }
+    return{setMarker,board,restartGame,moves};
 })();
 
 //create player object:
@@ -136,6 +148,26 @@ function gameController (){
         checkRows(diagnols,2);
 
     }
+
+    function countMarkers(){
+        let count = 0;
+        gameBoard.board.forEach(row =>{
+            row.forEach(value => {
+                if(value ==="X" || value === "O"){
+                    count++
+                }
+            })
+        })
+        return count;
+    }
+
+    function checkForDraw(){
+        let moves = countMarkers()
+        if (moves === 9){
+            console.log("draw");
+            gameBoard.restartGame();
+        }
+    }
         
         // function to check rows:
         function checkRows(array,rows){
@@ -146,9 +178,12 @@ function gameController (){
                let playerTwoMarker = getOccurences(array[index],"O");
                if(playerOneMarker === 3){
                 console.log("player one")
+                gameBoard.restartGame();
                }
                else if(playerTwoMarker === 3){
                 console.log("player two")
+                gameBoard.restartGame();
+
                }
 
             }
@@ -170,10 +205,13 @@ function gameController (){
           extractRows();
           extractColumns();
           extractDiagonals();
+          checkForDraw();
           console.log(gameBoard.board);
+          console.log(countMarkers());
         }
     
    
    return {selectActivePlayer,verifyWinner};
 }
 
+//object for manipulating and displaying to  the DOM
