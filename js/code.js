@@ -62,13 +62,13 @@ const gameBoard = (function (){
 const players = (function (){
 
     let playerOne = {
-        playerName : "chichi",
+        playerName : "",
         marker: "X"
 
     };
 
     let playerTwo = {
-        playerName : "chiko",
+        playerName : "",
         marker: "O"
 
     };
@@ -97,11 +97,11 @@ function gameController (){
         //if board has odd total number of markers and returns player one marker
         //if board has even number of markers
         if (count % 2 != 0){
-            return players.playerOne.marker;
+            return players.playerTwo.marker;
         }
 
         else{
-            return players.playerTwo.marker;
+            return players.playerOne.marker;
 
         }
         
@@ -215,3 +215,46 @@ function gameController (){
 }
 
 //object for manipulating and displaying to  the DOM
+function displayController(){
+    cacheDOM().getNamesModal.showModal();
+    bindEvents();
+    //cacheDOM
+    function cacheDOM(){
+        const getNameModalButton = document.querySelector("dialog form button");
+        const playerOneInput = document.querySelector("#playerOneName").value;
+        const playerTwoInput = document.querySelector("#playerTwoName").value;
+        const getNamesModal = document.querySelector("#get-player-names");
+        const playerOneTag = document.querySelector(".player-one-name");
+        const playerTwoTag = document.querySelector(".player-two-name");
+
+        return{
+            getNameModalButton,
+            getNamesModal,
+            playerOneInput,
+            playerTwoInput,
+            playerOneTag,
+            playerTwoTag};
+    }
+        //bindEvents
+    function bindEvents(){
+        cacheDOM().getNameModalButton.addEventListener("click",displayNames);
+        
+    }
+
+    function displayNames(event){
+        event.preventDefault();
+        players.playerOne.playerName = cacheDOM().playerOneInput;
+        players.playerTwo.playerName = cacheDOM().playerTwoInput;
+        cacheDOM().playerOneTag.innerHTML = players.playerOne.playerName;
+        cacheDOM().playerTwoTag.innerHTML = players.playerTwo.playerName;
+        cacheDOM().getNamesModal.close()
+
+
+    }
+
+    
+    
+
+}
+
+displayController();
