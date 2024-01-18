@@ -1,0 +1,44 @@
+/*default css*/
+:not(dialog){
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: monospace, sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.game-board-container{
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    
+}
+
+dialog#get-player-names{
+    text-align: center;
+}
+
+dialog#get-player-names form{
+    margin-top: 10px;
+    display: grid;
+    justify-items: center;
+    gap: 20px;
+}
+
+dialog#get-player-names form input{
+   padding: 10px 20px;
+   border-radius: 20px;
+   font-size: 1rem;
+}
+
+dialog#get-player-names form button{
+    padding: 10px 20px;
+    width: 150px;
+    background-color: black;
+    color: white;
+    font-weight: 900;
+ }
