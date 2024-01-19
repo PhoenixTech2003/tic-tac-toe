@@ -11,6 +11,9 @@ body{
     height: 100vh;
     justify-content: center;
     align-content: center;
+    background-image: url("../img/v602-nunoon-05-rippednotes.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
     
 }
 
@@ -60,7 +63,7 @@ dialog#get-player-names form button,
 }
 
 .game-board div{
-    border: 1px solid black;
+    border: 4px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
