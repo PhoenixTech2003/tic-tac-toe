@@ -44,12 +44,12 @@ const gameBoard = (function (){
         verifyWinner.verifyWinner();
     }
 
-    function restartGame(){
+    function clearBoard(){
         generateGameBoard()
     }
 
     
-    return{setMarker,board,restartGame};
+    return{setMarker,board,clearBoard};
 })();
 
 //create player object:
@@ -212,6 +212,10 @@ function displayController(){
     //cacheDOM
     function cacheDOM(){
         const getNameModalButton = document.querySelector("dialog form button");
+        const modalRestartButton = document.querySelector("#game-result  button");
+        const modalNewGameButton = document.querySelector("#game-result  button + button");
+        const gameboardRestartButton = document.querySelector(".game-board + button");
+        const gameboardNewGameButton = document.querySelector(".game-board + button + button");
         const playerOneInput = document.querySelector("#playerOneName").value;
         const playerTwoInput = document.querySelector("#playerTwoName").value;
         const getNamesModal = document.querySelector("#get-player-names");
@@ -219,7 +223,7 @@ function displayController(){
         const playerTwoTag = document.querySelector(".player-two-name");
         const boardCells = document.querySelectorAll(".game-board > div");
         const resultsModal = document.querySelector("#game-result")
-        const resultsheading = document.querySelector("#game-result .dialog-content > h1")
+        const resultsheading = document.querySelector("#game-result .dialog-content > h1");
 
         return{
             getNameModalButton,
@@ -230,12 +234,20 @@ function displayController(){
             playerTwoTag,
             boardCells,
             resultsModal,
-            resultsheading};
+            resultsheading,
+            gameboardRestartButton,
+            modalRestartButton,
+            gameboardNewGameButton,
+            modalNewGameButton};
     }
         //bindEvents
     function bindEvents(){
         cacheDOM().getNameModalButton.addEventListener("click",displayNames);
         cacheDOM().boardCells.forEach(cell => cell.addEventListener("click",displayMarker));
+        cacheDOM().gameboardRestartButton.addEventListener("click",restartGame);
+        cacheDOM().modalRestartButton.addEventListener("click",restartGame);
+        cacheDOM().gameboardNewGameButton.addEventListener("click",newGame);
+        cacheDOM().modalNewGameButton.addEventListener("click",newGame);
         
     }
 
@@ -281,6 +293,21 @@ function displayController(){
             
         })
     }
+
+    function restartGame(){
+        gameBoard.clearBoard();
+        updateDisplay();
+        cacheDOM().resultsModal.close();
+    }
+
+    function newGame(){
+        gameBoard.clearBoard();
+        updateDisplay();
+        cacheDOM().resultsModal.close();
+        cacheDOM().getNamesModal.showModal();
+    }
+
+
 
 
 
