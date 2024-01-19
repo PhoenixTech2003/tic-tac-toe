@@ -106,7 +106,7 @@ function gameController (){
     function extractRows(){
         let rows = [];
         gameBoard.board.forEach(row => rows.push(row));
-        checkRows(rows,3);
+        return  checkRows(rows,3);
     }
 
     function extractColumns(){
@@ -115,7 +115,7 @@ function gameController (){
              columns.push(gameBoard.board.map((value,index)=>value[columnNumber]));       
        }
 
-        checkRows(columns,3);      
+        return checkRows(columns,3);      
     }
 
     function extractDiagonals(){
@@ -139,7 +139,7 @@ function gameController (){
 
     
         diagnols.push(temp);
-        checkRows(diagnols,2);
+       return checkRows(diagnols,2);
 
     }
 
@@ -158,8 +158,8 @@ function gameController (){
     function checkForDraw(){
         let moves = countMarkers()
         if (moves === 9){
-            console.log("draw");
-            gameBoard.restartGame();
+            
+            return "DRAW!"
         }
     }
         
@@ -171,12 +171,12 @@ function gameController (){
                let playerOneMarker = getOccurences(array[index],"X");
                let playerTwoMarker = getOccurences(array[index],"O");
                if(playerOneMarker === 3){
-                console.log("player one")
-                gameBoard.restartGame();
+                    return `${players.playerOne.playerName} Wins`
+                
                }
                else if(playerTwoMarker === 3){
-                console.log("player two")
-                gameBoard.restartGame();
+                
+                    return `${players.playerTwo.playerName} Wins`
 
                }
 
@@ -196,12 +196,9 @@ function gameController (){
         }
         //function to determine winner
         function verifyWinner(){
-          extractRows();
-          extractColumns();
-          extractDiagonals();
-          checkForDraw();
-          console.log(gameBoard.board);
-          console.log(countMarkers());
+            console.log(gameBoard.board);
+            return[extractRows(),extractColumns(),extractDiagonals(),checkForDraw(),]
+          
         }
     
    
@@ -221,6 +218,9 @@ function displayController(){
         const playerOneTag = document.querySelector(".player-one-name");
         const playerTwoTag = document.querySelector(".player-two-name");
         const boardCells = document.querySelectorAll(".game-board > div");
+        const resultsModal = document.querySelector("#game-result")
+        const resultsheading = document.querySelector("#game-result .dialog-content > h1")
+
         return{
             getNameModalButton,
             getNamesModal,
@@ -228,7 +228,9 @@ function displayController(){
             playerTwoInput,
             playerOneTag,
             playerTwoTag,
-            boardCells};
+            boardCells,
+            resultsModal,
+            resultsheading};
     }
         //bindEvents
     function bindEvents(){
@@ -241,8 +243,8 @@ function displayController(){
         event.preventDefault();
         players.playerOne.playerName = cacheDOM().playerOneInput;
         players.playerTwo.playerName = cacheDOM().playerTwoInput;
-        cacheDOM().playerOneTag.innerHTML = players.playerOne.playerName;
-        cacheDOM().playerTwoTag.innerHTML = players.playerTwo.playerName;
+        cacheDOM().playerOneTag.innerHTML = `${players.playerOne.playerName} (X)`;
+        cacheDOM().playerTwoTag.innerHTML = `${players.playerTwo.playerName} (O)`;
         cacheDOM().getNamesModal.close()
 
     }
@@ -252,6 +254,8 @@ function displayController(){
          let column = event.target.dataset.column;
          gameBoard.setMarker(row,column);
          updateDisplay()
+         displayResult();
+
          
 
     }
@@ -265,6 +269,20 @@ function displayController(){
             
         
     }
+
+    function displayResult(){
+        let result = gameController().verifyWinner();
+        result.forEach(value =>{
+                if(value != undefined){
+                    cacheDOM().resultsheading.innerHTML = value;
+                    cacheDOM().resultsModal.showModal();
+
+                }
+            
+        })
+    }
+
+
 
     
 
