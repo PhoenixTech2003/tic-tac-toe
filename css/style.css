@@ -7,14 +7,10 @@
 }
 
 body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.game-board-container{
-    display: flex;
-    align-items: center;
+    display: grid;
     height: 100vh;
+    justify-content: center;
+    align-content: center;
     
 }
 
@@ -35,10 +31,38 @@ dialog#get-player-names form input{
    font-size: 1rem;
 }
 
-dialog#get-player-names form button{
+dialog#get-player-names form button,
+.game-board-container > button{
     padding: 10px 20px;
     width: 150px;
     background-color: black;
     color: white;
     font-weight: 900;
  }
+
+ .game-board-container{
+    display: grid;
+    gap: 20px;
+    justify-items: center;
+    
+}
+ 
+
+.game-board{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    height: 500px;
+    width: 500px;
+    
+    
+}
+
+.game-board div{
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: 900;
+}
