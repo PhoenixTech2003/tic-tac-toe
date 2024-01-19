@@ -6,8 +6,6 @@ const gameBoard = (function (){
     let columns = 3;
     //board array
     let board = [];
-    //variable to count moves
-    let moves  = 0;
     //create the gameboard
     generateGameBoard();
     
@@ -44,18 +42,14 @@ const gameBoard = (function (){
         }
         let verifyWinner = gameController()
         verifyWinner.verifyWinner();
-        countMoves();
     }
 
     function restartGame(){
         generateGameBoard()
     }
 
-    function countMoves(){
-        moves++;
-        return moves;
-    }
-    return{setMarker,board,restartGame,moves};
+    
+    return{setMarker,board,restartGame};
 })();
 
 //create player object:
@@ -226,18 +220,20 @@ function displayController(){
         const getNamesModal = document.querySelector("#get-player-names");
         const playerOneTag = document.querySelector(".player-one-name");
         const playerTwoTag = document.querySelector(".player-two-name");
-
+        const boardCells = document.querySelectorAll(".game-board > div");
         return{
             getNameModalButton,
             getNamesModal,
             playerOneInput,
             playerTwoInput,
             playerOneTag,
-            playerTwoTag};
+            playerTwoTag,
+            boardCells};
     }
         //bindEvents
     function bindEvents(){
         cacheDOM().getNameModalButton.addEventListener("click",displayNames);
+        cacheDOM().boardCells.forEach(cell => cell.addEventListener("click",displayMarker));
         
     }
 
@@ -249,8 +245,28 @@ function displayController(){
         cacheDOM().playerTwoTag.innerHTML = players.playerTwo.playerName;
         cacheDOM().getNamesModal.close()
 
+    }
+
+    function displayMarker(event){
+         let row = event.target.dataset.row;
+         let column = event.target.dataset.column;
+         gameBoard.setMarker(row,column);
+         updateDisplay()
+         
 
     }
+
+    function updateDisplay(){
+        
+                cacheDOM().boardCells.forEach(cell => {
+                    cell.innerHTML = gameBoard.board[cell.dataset.row][cell.dataset.column];
+                })
+
+            
+        
+    }
+
+    
 
     
     
