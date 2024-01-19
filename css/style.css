@@ -32,7 +32,8 @@ dialog#get-player-names form input{
 }
 
 dialog#get-player-names form button,
-.game-board-container > button{
+.game-board-container > button,
+#game-result .dialog-content > button{
     padding: 10px 20px;
     width: 150px;
     background-color: black;
@@ -65,4 +66,11 @@ dialog#get-player-names form button,
     align-items: center;
     font-size: 3rem;
     font-weight: 900;
+}
+
+#game-result .dialog-content{
+    display: grid;
+    gap: 20px;
+    justify-items: center;
+    padding: 50px;
 }
